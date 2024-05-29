@@ -20,7 +20,6 @@
 //! - Its standard floating-point k-d tree, exposed as [`kiddo::KdTree`](`crate::KdTree`)
 //! - **integer / fixed point support** via the [`Fixed`](https://docs.rs/fixed/latest/fixed/) library;
 //! - **`f16` support** via the [`half`](https://docs.rs/half/latest/half/) library;
-//! - **instant zero-copy deserialization** and serialization via [`Rkyv`](https://docs.rs/rkyv/latest/rkyv/) ([`Serde`](https://docs.rs/serde/latest/serde/) still available).
 //! - An [`ImmutableKdTree`](`immutable::float::kdtree::ImmutableKdTree`) with space and performance advantages over the standard
 //!   k-d tree, for situations where the tree does not need to be modified after creation
 //!
@@ -75,8 +74,6 @@
 //! ## Optional Features
 
 //! The Kiddo crate exposes the following features. Any labelled as **(NIGHTLY)** are not available on `stable` Rust as they require some unstable features. You'll need to build with `nightly` in order to user them.
-//! * **serialize** - serialization / deserialization via [`Serde`](https://docs.rs/serde/latest/serde/)
-//! * **serialize_rkyv** - zero-copy serialization / deserialization via [`Rkyv`](https://docs.rs/rkyv/latest/rkyv/)
 //! * `global_allocate` **(NIGHTLY)** -  When enabled Kiddo will use the unstable allocator_api feature within [`ImmutableKdTree`](`immutable::float::kdtree::ImmutableKdTree`) to get a slight performance improvement when allocating space for leaves.
 //! * `simd` **(NIGHTLY)** - enables some hand written SIMD and pre-fetch intrinsics code within [`ImmutableKdTree`](`immutable::float::kdtree::ImmutableKdTree`) that may improve performance (currently only on nearest_one with `f64`)
 //! * `f16` - enables usage of `f16` from the `half` crate for float trees.
@@ -88,9 +85,6 @@ extern crate alloc;
 pub mod best_neighbour;
 #[doc(hidden)]
 pub(crate) mod common;
-#[cfg(feature = "serialize")]
-#[cfg_attr(doc_cfg, doc(cfg(feature = "serialize")))]
-mod custom_serde;
 pub mod distance_metric;
 pub mod float;
 pub mod immutable;

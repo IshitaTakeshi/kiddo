@@ -15,8 +15,6 @@ use crate::{
     iter::{IterableTreeData, TreeIter},
     types::{Content, Index},
 };
-#[cfg(feature = "serialize")]
-use serde::{Deserialize, Serialize};
 
 /// Axis trait represents the traits that must be implemented
 /// by the type that is used as the first generic parameter, `A`,
@@ -40,15 +38,6 @@ impl<T: FloatCore + Default + Debug + Copy + Sync + Send + core::ops::AddAssign>
     }
 }
 
-// TODO: make LeafNode and StemNode `pub(crate)` so that they,
-//       and their Archived types, don't show up in docs.
-//       This is tricky due to encountering this problem:
-//       https://github.com/rkyv/rkyv/issues/275
-/* #[cfg_attr(
-    feature = "serialize_rkyv",
-    omit_bounds
-)] */
-
 /// Floating point k-d tree
 ///
 /// For use when the co-ordinates of the points being stored in the tree
@@ -57,11 +46,6 @@ impl<T: FloatCore + Default + Debug + Copy + Sync + Send + core::ops::AddAssign>
 ///
 /// A convenient type alias exists for KdTree with some sensible defaults set: [`kiddo::KdTree`](`crate::KdTree`).
 
-#[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
-#[cfg_attr(
-    feature = "serialize_rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Clone, Debug, PartialEq)]
 pub struct KdTree<A: Copy + Default, T: Copy + Default, const K: usize, const B: usize, IDX> {
     pub(crate) leaves: Vec<LeafNode<A, T, K, B, IDX>>,
@@ -71,11 +55,6 @@ pub struct KdTree<A: Copy + Default, T: Copy + Default, const K: usize, const B:
 }
 
 #[doc(hidden)]
-#[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
-#[cfg_attr(
-    feature = "serialize_rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Clone, Debug, PartialEq)]
 pub struct StemNode<A: Copy + Default, const K: usize, IDX> {
     pub(crate) left: IDX,
@@ -84,32 +63,9 @@ pub struct StemNode<A: Copy + Default, const K: usize, IDX> {
 }
 
 #[doc(hidden)]
-#[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
-#[cfg_attr(
-    feature = "serialize_rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Clone, Debug, PartialEq)]
 pub struct LeafNode<A: Copy + Default, T: Copy + Default, const K: usize, const B: usize, IDX> {
-    #[cfg_attr(
-        feature = "serialize",
-        serde(with = "crate::custom_serde::array_of_arrays")
-    )]
-    #[cfg_attr(
-        feature = "serialize",
-        serde(bound(serialize = "A: Serialize", deserialize = "A: Deserialize<'de>"))
-    )]
-    // TODO: Refactor content_points to be [[A; B]; K] to see if this helps vectorisation
     pub content_points: [[A; K]; B],
-
-    #[cfg_attr(feature = "serialize", serde(with = "crate::custom_serde::array"))]
-    #[cfg_attr(
-        feature = "serialize",
-        serde(bound(
-            serialize = "A: Serialize, T: Serialize",
-            deserialize = "A: Deserialize<'de>, T: Deserialize<'de> + Copy + Default"
-        ))
-    )]
     pub content_items: [T; B],
 
     pub size: IDX,
@@ -312,42 +268,6 @@ mod tests {
         let tree: KdTree<AX, u32, 4, 32, u32> = KdTree::with_capacity(0);
 
         assert_eq!(tree.size(), 0);
-    }
-
-    #[cfg(feature = "serialize")]
-    #[test]
-    fn can_serde() {
-        let mut tree: KdTree<f32, u32, 4, 32, u32> = KdTree::new();
-
-        let content_to_add: [([f32; 4], u32); 16] = [
-            ([9f32, 0f32, 9f32, 0f32], 9),
-            ([4f32, 500f32, 4f32, 500f32], 4),
-            ([12f32, -300f32, 12f32, -300f32], 12),
-            ([7f32, 200f32, 7f32, 200f32], 7),
-            ([13f32, -400f32, 13f32, -400f32], 13),
-            ([6f32, 300f32, 6f32, 300f32], 6),
-            ([2f32, 700f32, 2f32, 700f32], 2),
-            ([14f32, -500f32, 14f32, -500f32], 14),
-            ([3f32, 600f32, 3f32, 600f32], 3),
-            ([10f32, -100f32, 10f32, -100f32], 10),
-            ([16f32, -700f32, 16f32, -700f32], 16),
-            ([1f32, 800f32, 1f32, 800f32], 1),
-            ([15f32, -600f32, 15f32, -600f32], 15),
-            ([5f32, 400f32, 5f32, 400f32], 5),
-            ([8f32, 100f32, 8f32, 100f32], 8),
-            ([11f32, -200f32, 11f32, -200f32], 11),
-        ];
-
-        for (point, item) in content_to_add {
-            tree.add(&point, item);
-        }
-        assert_eq!(tree.size(), 16);
-
-        let serialized = serde_json::to_string(&tree).unwrap();
-        println!("JSON: {:?}", &serialized);
-
-        let deserialized: KdTree<f32, u32, 4, 32, u32> = serde_json::from_str(&serialized).unwrap();
-        assert_eq!(tree, deserialized);
     }
 
     #[test]

@@ -22,9 +22,6 @@ use crate::float_leaf_simd::leaf_node::{BestFromDists, LeafNode};
 use crate::iter::{IterableTreeData, TreeIter};
 use crate::types::Content;
 
-#[cfg(feature = "serialize")]
-use serde::{Deserialize, Serialize};
-
 /// Immutable floating point k-d tree
 ///
 /// Offers less memory utilisation, smaller size
@@ -35,11 +32,6 @@ use serde::{Deserialize, Serialize};
 /// values, or [`f16`](https://docs.rs/half/latest/half/struct.f16.html) if the `f16` feature is enabled
 ///
 /// A convenient type alias exists for ImmutableKdTree with some sensible defaults set: [`kiddo::ImmutableKdTree`](`crate::ImmutableKdTree`).
-#[cfg_attr(feature = "serialize", derive(Serialize, Deserialize))]
-#[cfg_attr(
-    feature = "serialize_rkyv",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
 #[derive(Clone, Debug, PartialEq)]
 pub struct ImmutableKdTree<A: Copy + Default, T: Copy + Default, const K: usize, const B: usize> {
     pub(crate) leaves: Vec<LeafNode<A, T, K, B>>,
