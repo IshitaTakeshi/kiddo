@@ -55,29 +55,6 @@ where
     );
 }
 
-#[cfg(feature = "rkyv")]
-use crate::float::kdtree::{ArchivedKdTree, ArchivedLeafNode};
-#[cfg(feature = "rkyv")]
-impl<
-        A: Axis + rkyv::Archive<Archived = A>,
-        T: Content + rkyv::Archive<Archived = T>,
-        const K: usize,
-        const B: usize,
-        IDX: Index<T = IDX> + rkyv::Archive<Archived = IDX>,
-    > ArchivedKdTree<A, T, K, B, IDX>
-where
-    usize: Cast<IDX>,
-{
-    generate_float_best_n_within!(
-        ArchivedLeafNode,
-        "use core::fs::File;
-    use memmap::MmapOptions;
-
-    let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/float-doctest-tree.rkyv\").unwrap()).unwrap() };
-    let tree = unsafe { rkyv::archived_root::<KdTree<f64, 3>>(&mmap) };"
-    );
-}
-
 #[cfg(test)]
 mod tests {
     use crate::best_neighbour::BestNeighbour;

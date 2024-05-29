@@ -286,20 +286,6 @@ where
     generate_common_methods!(KdTree);
 }
 
-#[cfg(feature = "rkyv")]
-impl<
-        A: Axis + rkyv::Archive<Archived = A>,
-        T: Content + rkyv::Archive<Archived = T>,
-        const K: usize,
-        const B: usize,
-        IDX: Index<T = IDX> + rkyv::Archive<Archived = IDX>,
-    > ArchivedKdTree<A, T, K, B, IDX>
-where
-    usize: Cast<IDX>,
-{
-    generate_common_methods!(ArchivedKdTree);
-}
-
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;

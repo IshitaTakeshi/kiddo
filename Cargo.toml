@@ -161,18 +161,8 @@ path = "examples/serde.rs"
 required-features = ["serialize"]
 
 [[example]]
-name = "rkyv"
-path = "examples/rkyv.rs"
-required-features = ["serialize_rkyv"]
-
-[[example]]
 name = "rkyv-large-serialize"
 path = "examples/rkyv-large-serialize.rs"
-required-features = ["serialize_rkyv"]
-
-[[example]]
-name = "rkyv-large-deserialize"
-path = "examples/rkyv-large-deserialize.rs"
 required-features = ["serialize_rkyv"]
 
 [[example]]
@@ -183,11 +173,6 @@ required-features = ["test_utils"]
 [[example]]
 name = "immutable-rkyv-serialize"
 path = "examples/immutable-rkyv-serialize.rs"
-required-features = ["serialize_rkyv"]
-
-[[example]]
-name = "immutable-rkyv-deserialize"
-path = "examples/immutable-rkyv-deserialize.rs"
 required-features = ["serialize_rkyv"]
 
 [[example]]

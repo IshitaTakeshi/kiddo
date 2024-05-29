@@ -46,25 +46,6 @@ impl<A: Axis, T: Content, const K: usize, const B: usize> ImmutableKdTree<A, T, 
     );
 }
 
-#[cfg(feature = "rkyv")]
-use crate::immutable::float::kdtree::ArchivedImmutableKdTree;
-#[cfg(feature = "rkyv")]
-impl<
-        A: Axis + rkyv::Archive<Archived = A>,
-        T: Content + rkyv::Archive<Archived = T>,
-        const K: usize,
-        const B: usize,
-    > ArchivedImmutableKdTree<A, T, K, B>
-{
-    generate_immutable_float_within_unsorted!(
-        "use core::fs::File;
-    use memmap::MmapOptions;
-
-    let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/immutable-doctest-tree.rkyv\").unwrap()).unwrap() };
-    let tree = unsafe { rkyv::archived_root::<ImmutableKdTree<f64, 3>>(&mmap) };"
-    );
-}
-
 #[cfg(test)]
 mod tests {
     use crate::distance_metric::DistanceMetric;
