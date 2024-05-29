@@ -39,7 +39,7 @@
 //!
 //! ## Usage
 //! ```rust
-//! use kiddo::KdTree;
+//! use kiddo::ImmutableKdTree;
 //! use kiddo::SquaredEuclidean;
 //! use kiddo::NearestNeighbour;
 //!
@@ -51,7 +51,7 @@
 //! ];
 //!
 //! // use the kiddo::KdTree type to get up and running quickly with default settings
-//! let mut kdtree: KdTree<_, 2> = (&entries).into();
+//! let mut kdtree: ImmutableKdTree<_, 2> = ImmutableKdTree::new_from_slice(&entries);
 //!
 //! // How many items are in tree?
 //! assert_eq!(kdtree.size(), 4);
@@ -102,15 +102,6 @@ pub mod within_unsorted_iter;
 
 #[doc(hidden)]
 pub mod float_leaf_simd;
-
-/// A floating-point k-d tree with default parameters.
-///
-/// `A` is the floating point type (`f32` or `f64`, or `f16` if the `f16` feature is enabled).
-/// `K` is the number of dimensions. See [`KdTree`](`float::kdtree::KdTree`) for details of how to use.
-///
-/// To manually specify more advanced parameters, use [`KdTree`](`float::kdtree::KdTree`) directly.
-/// To store positions using integer or fixed-point types, use [`fixed::kdtree::KdTree`].
-pub type KdTree<A, const K: usize> = float::kdtree::KdTree<A, u64, K, 32, u32>;
 
 /// An immutable floating-point k-d tree with default parameters.
 ///

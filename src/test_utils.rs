@@ -10,7 +10,7 @@ use rayon::prelude::IntoParallelRefIterator;
 use core::array;
 use core::hint::black_box;
 
-use crate::float::kdtree::{Axis, KdTree};
+use crate::float::kdtree::Axis;
 use crate::float_leaf_simd::leaf_node::BestFromDists;
 use crate::immutable::float::kdtree::ImmutableKdTree;
 use crate::types::{Content, Index};
@@ -55,32 +55,6 @@ macro_rules! batch_benches_parameterized {
     ($group:ident, $callee:ident, $param:tt,  [$(($a:ty, $k:tt)),+], $s_t_idx_list:tt ) => {
         { $($crate::size_t_idx_parameterized!($group; $callee; $param; $a|$k; $s_t_idx_list );)* }
     }
-}
-
-pub fn build_populated_tree_float<
-    A: Axis,
-    T: Content,
-    const K: usize,
-    const B: usize,
-    IDX: Index<T = IDX>,
->(
-    size: usize,
-    spare_capacity: usize,
-) -> KdTree<A, T, K, B, IDX>
-where
-    usize: Cast<IDX>,
-    Standard: Distribution<T>,
-    Standard: Distribution<([A; K], T)>,
-    Standard: Distribution<[A; K]>,
-{
-    let mut kdtree = KdTree::<A, T, K, B, IDX>::with_capacity(size + spare_capacity);
-
-    for _ in 0..size {
-        let entry = rand::random::<([A; K], T)>();
-        kdtree.add(&entry.0, entry.1);
-    }
-
-    kdtree
 }
 
 pub fn build_populated_tree_immutable_float<A: Axis, T: Content, const K: usize, const B: usize>(
@@ -134,27 +108,6 @@ where
     (0..points_qty).map(|_| rand::random::<[A; K]>()).collect()
 }
 
-pub fn build_populated_tree_and_query_points_float<
-    A: Axis,
-    T: Content,
-    const K: usize,
-    const B: usize,
-    IDX: Index<T = IDX>,
->(
-    size: usize,
-    query_point_qty: usize,
-) -> (KdTree<A, T, K, B, IDX>, Vec<[A; K]>)
-where
-    usize: Cast<IDX>,
-    Standard: Distribution<T>,
-    Standard: Distribution<[A; K]>,
-{
-    (
-        build_populated_tree_float(size, 0),
-        build_query_points_float(query_point_qty),
-    )
-}
-
 pub fn build_populated_tree_and_query_points_immutable_float<
     A: Axis,
     T: Content,
@@ -198,34 +151,6 @@ where
     )
 }
 */
-
-#[inline]
-pub fn process_queries_float<
-    A: Axis + 'static,
-    T: Content,
-    const K: usize,
-    const B: usize,
-    IDX: Index<T = IDX>,
-    F,
->(
-    query: F,
-) -> Box<dyn Fn((KdTree<A, T, K, B, IDX>, Vec<[A; K]>))>
-where
-    usize: Cast<IDX>,
-    Standard: Distribution<T>,
-    Standard: Distribution<[A; K]>,
-    F: Fn(&KdTree<A, T, K, B, IDX>, &[A; K]) + 'static + Sync,
-{
-    Box::new(
-        move |(kdtree, points_to_query): (KdTree<A, T, K, B, IDX>, Vec<[A; K]>)| {
-            black_box(
-                points_to_query
-                    .par_iter()
-                    .for_each(|point| black_box(query(&kdtree, point))),
-            )
-        },
-    )
-}
 
 #[inline]
 pub fn process_queries_immutable_float<
@@ -283,31 +208,3 @@ where
     )
 }
 */
-
-pub fn process_queries_float_parameterized<
-    A: Axis + 'static,
-    T: Content,
-    const K: usize,
-    const B: usize,
-    IDX: Index<T = IDX>,
-    F,
->(
-    query: F,
-    param: f64,
-) -> Box<dyn Fn((KdTree<A, T, K, B, IDX>, Vec<[A; K]>))>
-where
-    usize: Cast<IDX>,
-    Standard: Distribution<T>,
-    Standard: Distribution<[A; K]>,
-    F: Fn(&KdTree<A, T, K, B, IDX>, &[A; K], f64) + 'static,
-{
-    Box::new(
-        move |(kdtree, points_to_query): (KdTree<A, T, K, B, IDX>, Vec<[A; K]>)| {
-            black_box(
-                points_to_query
-                    .iter()
-                    .for_each(|point| black_box(query(&kdtree, point, param))),
-            )
-        },
-    )
-}
