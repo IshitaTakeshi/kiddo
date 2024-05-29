@@ -77,31 +77,6 @@ where
     }
 }
 
-#[cfg(feature = "rkyv")]
-impl<A, T, const K: usize, const B: usize> ArchivedLeafNode<A, T, K, B>
-where
-    A: Axis + BestFromDists<T, B> + rkyv::Archive<Archived = A>,
-    T: Content + rkyv::Archive<Archived = T>,
-    usize: Cast<T>,
-{
-    pub fn nearest_one<D>(&self, query: &[A; K], best_dist: &mut A, best_item: &mut T)
-    where
-        D: DistanceMetric<A, K>,
-    {
-        // AVX512: 4 loops of 32 iterations, each 4x unrolled, 5 instructions per pre-unrolled iteration
-        let mut acc = [A::zero(); B];
-        (0..K).step_by(1).for_each(|dim| {
-            let qd = [query[dim]; B];
-
-            (0..B).step_by(1).for_each(|idx| {
-                acc[idx] += D::dist1(self.content_points[dim][idx], qd[idx]);
-            });
-        });
-
-        A::get_best_from_dists(acc, &self.content_items, best_dist, best_item);
-    }
-}
-
 impl<T: Content, const B: usize> BestFromDists<T, B> for f64
 where
     T: Content,

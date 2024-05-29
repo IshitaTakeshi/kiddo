@@ -93,7 +93,6 @@ default = ["tracing"]
 f16 = ["half"]
 global_allocate = []
 immutable = []
-serialize_rkyv = ["rkyv"]
 simd = []
 test_utils = ["rand", "rand_chacha", "rayon"]
 tracing = ["dep:tracing", "tracing-subscriber"]
@@ -137,19 +136,9 @@ harness = false
 required-features = ["test_utils"]
 
 [[example]]
-name = "rkyv-large-serialize"
-path = "examples/rkyv-large-serialize.rs"
-required-features = ["serialize_rkyv"]
-
-[[example]]
 name = "immutable-large"
 path = "examples/immutable-large.rs"
 required-features = ["test_utils"]
-
-[[example]]
-name = "immutable-rkyv-serialize"
-path = "examples/immutable-rkyv-serialize.rs"
-required-features = ["serialize_rkyv"]
 
 [[example]]
 name = "check-select-nth-unstable"
@@ -163,11 +152,6 @@ required-features = ["test_utils"]
 [[example]]
 name = "avx2-check"
 path = "examples/avx2-check.rs"
-
-[[example]]
-name = "build-immutable-doctest-tree"
-path = "examples/build-immutable-doctest-tree.rs"
-required-features = ["serialize_rkyv"]
 
 [[example]]
 name = "build-float-doctest-tree"
