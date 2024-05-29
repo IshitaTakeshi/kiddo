@@ -1,12 +1,16 @@
 #![allow(clippy::type_complexity, clippy::unit_arg)]
+use alloc::vec;
+use alloc::vec::Vec;
+use alloc::boxed::Box;
+
 use az::Cast;
 use fixed::types::extra::Unsigned;
 use fixed::FixedU16;
 use rand::distributions::{Distribution, Standard};
 use rayon::iter::ParallelIterator;
 use rayon::prelude::IntoParallelRefIterator;
-use std::array;
-use std::hint::black_box;
+use core::array;
+use core::hint::black_box;
 
 use crate::fixed::kdtree::{Axis as AxisFixed, KdTree as FixedKdTree};
 use crate::float::kdtree::{Axis, KdTree};
@@ -29,7 +33,7 @@ where
     FixedU16<A>: AxisFixed,
 {
     let val: u16 = rand::random();
-    unsafe { std::mem::transmute(val) }
+    unsafe { core::mem::transmute(val) }
 }
 
 pub fn rand_data_fixed_u16_point<A: Unsigned, const K: usize>() -> [FixedU16<A>; K]

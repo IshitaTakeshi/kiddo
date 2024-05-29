@@ -1,3 +1,5 @@
+use alloc::vec::Vec;
+
 use crate::distance_metric::DistanceMetric;
 use crate::float::kdtree::Axis;
 use crate::float_leaf_simd::leaf_node::BestFromDists;
@@ -55,7 +57,7 @@ impl<
     > ArchivedImmutableKdTree<A, T, K, B>
 {
     generate_immutable_float_nearest_n!(
-        "use std::fs::File;
+        "use core::fs::File;
     use memmap::MmapOptions;
 
     let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/immutable-doctest-tree.rkyv\").unwrap()).unwrap() };

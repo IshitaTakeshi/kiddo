@@ -1,8 +1,10 @@
+use itertools::__std_iter::FromIterator;
+
 use crate::fixed::kdtree::{Axis, KdTree, LeafNode, StemNode};
 use crate::mirror_select_nth_unstable_by::mirror_select_nth_unstable_by;
 use crate::types::{is_stem_index, Content, Index};
 use az::{Az, Cast};
-use std::ops::Rem;
+use core::ops::Rem;
 
 impl<A: Axis, T: Content, const K: usize, const B: usize, IDX: Index<T = IDX>>
     KdTree<A, T, K, B, IDX>

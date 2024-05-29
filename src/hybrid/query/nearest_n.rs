@@ -2,8 +2,8 @@ use crate::float_sss::kdtree::{Axis, KdTree};
 use crate::float_sss::neighbour::Neighbour;
 use crate::types::{Content, Index};
 use az::{Az, Cast};
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 impl<A: Axis, T: Content, const K: usize, const B: usize, IDX: Index<T = IDX>>
     KdTree<A, T, K, B, IDX>

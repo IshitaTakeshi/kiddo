@@ -2,7 +2,7 @@
 //! between two points stored inside the tree.
 
 // #[cfg(any(target_arch = "x86_64"))]
-// use std::arch::x86_64::*;
+// use core::arch::x86_64::*;
 
 use crate::float::kdtree::Axis;
 
@@ -24,7 +24,7 @@ pub fn squared_euclidean<A: Axis, const K: usize>(a: &[A; K], b: &[A; K]) -> A {
     a.iter()
         .zip(b.iter())
         .map(|(&a_val, &b_val)| (a_val - b_val) * (a_val - b_val))
-        .fold(A::zero(), std::ops::Add::add)
+        .fold(A::zero(), core::ops::Add::add)
 }
 
 /// Returns the Manhattan / "taxi cab" distance between two points.
@@ -44,5 +44,5 @@ pub fn manhattan<A: Axis, const K: usize>(a: &[A; K], b: &[A; K]) -> A {
     a.iter()
         .zip(b.iter())
         .map(|(&a_val, &b_val)| (a_val - b_val).abs())
-        .fold(A::zero(), std::ops::Add::add)
+        .fold(A::zero(), core::ops::Add::add)
 }

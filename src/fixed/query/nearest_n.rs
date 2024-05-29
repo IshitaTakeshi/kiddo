@@ -1,6 +1,8 @@
 use az::{Az, Cast};
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use alloc::vec::Vec;
+
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::fixed::kdtree::{Axis, KdTree};

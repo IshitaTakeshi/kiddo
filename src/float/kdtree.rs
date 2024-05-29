@@ -3,10 +3,13 @@
 //! if the `f16` feature is enabled
 
 use az::{Az, Cast};
+use alloc::vec::Vec;
+use itertools::__std_iter::Iterator;
+
 use divrem::DivCeil;
 use num_traits::float::FloatCore;
-use std::cmp::PartialEq;
-use std::fmt::Debug;
+use core::cmp::PartialEq;
+use core::fmt::Debug;
 
 use crate::{
     iter::{IterableTreeData, TreeIter},
@@ -19,14 +22,14 @@ use serde::{Deserialize, Serialize};
 /// by the type that is used as the first generic parameter, `A`,
 /// on the float [`KdTree`]. This will be [`f64`] or [`f32`],
 /// or [`f16`](https://docs.rs/half/latest/half/struct.f16.html) if the `f16` feature is enabled
-pub trait Axis: FloatCore + Default + Debug + Copy + Sync + Send + std::ops::AddAssign {
+pub trait Axis: FloatCore + Default + Debug + Copy + Sync + Send + core::ops::AddAssign {
     /// returns absolute diff between two values of a type implementing this trait
     fn saturating_dist(self, other: Self) -> Self;
 
     /// used in query methods to update the rd value. Basically a saturating add for Fixed and an add for Float
     fn rd_update(rd: Self, delta: Self) -> Self;
 }
-impl<T: FloatCore + Default + Debug + Copy + Sync + Send + std::ops::AddAssign> Axis for T {
+impl<T: FloatCore + Default + Debug + Copy + Sync + Send + core::ops::AddAssign> Axis for T {
     fn saturating_dist(self, other: Self) -> Self {
         (self - other).abs()
     }

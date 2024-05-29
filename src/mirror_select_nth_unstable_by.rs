@@ -1,7 +1,7 @@
-use std::cmp::Ordering;
-use std::cmp::Ordering::{Equal, Greater, Less};
-use std::mem::MaybeUninit;
-use std::{cmp, mem, ptr};
+use core::cmp::Ordering;
+use core::cmp::Ordering::{Equal, Greater, Less};
+use core::mem::MaybeUninit;
+use core::{cmp, mem, ptr};
 
 // performs select_nth_unstable_by on target,
 // but all the operations performed in the sort are applied to mirror as well

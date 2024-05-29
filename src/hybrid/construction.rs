@@ -2,7 +2,7 @@ use crate::float_sss::kdtree::{Axis, KdTree, StemNode};
 use crate::mirror_select_nth_unstable_by::mirror_select_nth_unstable_by;
 use crate::types::{Content, Index};
 use az::{Az, Cast};
-use std::ops::Rem;
+use core::ops::Rem;
 
 #[derive(Clone)]
 enum LeafParent<T> {

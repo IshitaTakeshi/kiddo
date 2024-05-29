@@ -1,12 +1,13 @@
 #[cfg(feature = "serialize")]
 pub(crate) mod array {
+    use alloc::format;
     use core::option::Option::None;
     use serde::{
         de::{SeqAccess, Visitor},
         ser::SerializeTuple,
         Deserialize, Deserializer, Serialize, Serializer,
     };
-    use std::marker::PhantomData;
+    use core::marker::PhantomData;
 
     pub fn serialize<S: Serializer, T: Serialize, const N: usize>(
         data: &[T; N],
@@ -27,7 +28,7 @@ pub(crate) mod array {
     {
         type Value = [T; N];
 
-        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
             formatter.write_str(&format!("an array of length {}", N))
         }
 
@@ -70,7 +71,7 @@ pub(crate) mod array_of_2ples {
         ser::SerializeTuple,
         Deserialize, Deserializer, Serialize, Serializer,
     };
-    use std::marker::PhantomData;
+    use core::marker::PhantomData;
 
     pub fn serialize<S: Serializer, T: Serialize, const N: usize>(
         data: &[(T, T); N],
@@ -92,7 +93,7 @@ pub(crate) mod array_of_2ples {
     {
         type Value = [(T, T); N];
 
-        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
             formatter.write_str(&format!("an array of 2ples of length {}", N))
         }
 
@@ -137,13 +138,14 @@ pub(crate) mod array_of_2ples {
 
 #[cfg(feature = "serialize")]
 pub(crate) mod array_of_arrays {
+    use alloc::format;
     use core::option::Option::None;
     use serde::{
         de::{SeqAccess, Visitor},
         ser::SerializeTuple,
         Deserialize, Deserializer, Serialize, Serializer,
     };
-    use std::marker::PhantomData;
+    use core::marker::PhantomData;
 
     pub fn serialize<S: Serializer, T: Serialize, const N: usize, const K: usize>(
         data: &[[T; K]; N],
@@ -166,7 +168,7 @@ pub(crate) mod array_of_arrays {
     {
         type Value = [[T; K]; N];
 
-        fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        fn expecting(&self, formatter: &mut core::fmt::Formatter) -> core::fmt::Result {
             formatter.write_str(&format!("an array of arrays, dimensions of {}x{}", K, N))
         }
 

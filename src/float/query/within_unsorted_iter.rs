@@ -1,6 +1,6 @@
 use az::{Az, Cast};
 use generator::{done, Gn, Scope};
-use std::ops::Rem;
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::float::kdtree::{Axis, KdTree};
@@ -63,7 +63,7 @@ where
     usize: Cast<IDX>,
 {
     generate_float_within_unsorted_iter!(
-        "use std::fs::File;
+        "use core::fs::File;
 use memmap::MmapOptions;
 
 let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/float-doctest-tree.rkyv\").unwrap()).unwrap() };
@@ -78,7 +78,7 @@ mod tests {
     use crate::float::kdtree::{Axis, KdTree};
     use crate::nearest_neighbour::NearestNeighbour;
     use rand::Rng;
-    use std::cmp::Ordering;
+    use core::cmp::Ordering;
 
     type AX = f32;
 

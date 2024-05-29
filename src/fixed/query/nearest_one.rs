@@ -1,5 +1,5 @@
 use az::{Az, Cast};
-use std::ops::Rem;
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::fixed::kdtree::{Axis, KdTree, LeafNode};

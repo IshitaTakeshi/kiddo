@@ -1,6 +1,8 @@
 use az::{Az, Cast};
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use alloc::vec::Vec;
+
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::float::kdtree::{Axis, KdTree};
@@ -60,7 +62,7 @@ where
     usize: Cast<IDX>,
 {
     generate_float_nearest_n!(
-        "use std::fs::File;
+        "use core::fs::File;
     use memmap::MmapOptions;
 
     let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/float-doctest-tree.rkyv\").unwrap()).unwrap() };

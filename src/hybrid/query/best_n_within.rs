@@ -2,8 +2,8 @@ use crate::float_sss::kdtree::{Axis, KdTree, LeafNode};
 
 use crate::types::{Content, Index};
 use az::{Az, Cast};
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 impl<A: Axis, T: Content, const K: usize, const B: usize, IDX: Index<T = IDX>>
     KdTree<A, T, K, B, IDX>
@@ -13,7 +13,7 @@ where
     /// Finds the "best" `n` elements within `dist` of `query`.
     ///
     /// Results are returned in arbitrary order. 'Best' is determined by
-    /// performing a comparison of the elements using < (ie, std::ord::lt).
+    /// performing a comparison of the elements using < (ie, core::ord::lt).
     /// Returns an iterator.
     ///
     /// # Examples

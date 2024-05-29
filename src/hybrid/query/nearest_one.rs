@@ -1,8 +1,8 @@
 use crate::float_sss::kdtree::{Axis, KdTree};
 use crate::types::{Content, Index};
 use az::{Az, Cast};
-use std::ops::Rem;
-use std::ptr;
+use core::ops::Rem;
+use core::ptr;
 
 enum StemIdx<IDX> {
     Stem(IDX),
@@ -232,7 +232,7 @@ where
         #[cfg(target_arch = "x86_64")]
         unsafe {
             let prefetch = self.stems.as_ptr().wrapping_offset(2 * idx as isize);
-            std::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(ptr::addr_of!(
+            core::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(ptr::addr_of!(
                 prefetch
             )
                 as *const i8);

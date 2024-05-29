@@ -1,6 +1,6 @@
 //! A result item returned by a query
 use crate::float::kdtree::Axis;
-use std::cmp::Ordering;
+use core::cmp::Ordering;
 
 /// Represents an entry in the results of a query, with `distance` being the distance of this
 /// particular item from the query point, and `item` being the stored item index that was found

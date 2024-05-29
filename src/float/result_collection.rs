@@ -1,8 +1,10 @@
+use alloc::vec::Vec;
+
 use crate::float::kdtree::Axis;
 use crate::nearest_neighbour::NearestNeighbour;
 use crate::types::Content;
 use sorted_vec::SortedVec;
-use std::collections::BinaryHeap;
+use alloc::collections::BinaryHeap;
 
 pub(crate) trait ResultCollection<A: Axis, T: Content> {
     fn new_with_capacity(capacity: usize) -> Self;

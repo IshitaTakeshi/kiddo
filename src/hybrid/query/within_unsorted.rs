@@ -1,6 +1,6 @@
 use crate::float_sss::neighbour::Neighbour;
 use az::{Az, Cast};
-use std::ops::Rem;
+use core::ops::Rem;
 
 use crate::float_sss::kdtree::{Axis, KdTree};
 use crate::types::{Content, Index};
@@ -146,7 +146,7 @@ mod tests {
     use crate::float::distance::squared_euclidean;
     use crate::float::kdtree::{Axis, KdTree};
     use rand::Rng;
-    use std::cmp::Ordering;
+    use core::cmp::Ordering;
 
     type AX = f32;
 

@@ -4,7 +4,7 @@ use core::arch::x86_64::{
 };
 
 use core::arch::x86_64::{_mm512_cmp_pd_mask, _mm512_loadu_pd, _mm512_min_pd, _mm512_storeu_pd};
-use std::ptr;
+use core::ptr;
 
 use crate::types::Content;
 

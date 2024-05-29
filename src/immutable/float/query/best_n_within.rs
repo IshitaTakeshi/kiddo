@@ -1,6 +1,8 @@
 use az::Cast;
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use itertools::__std_iter::Iterator;
+
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 use crate::best_neighbour::BestNeighbour;
 use crate::distance_metric::DistanceMetric;
@@ -18,7 +20,7 @@ macro_rules! generate_immutable_float_best_n_within {
                 "Finds the \"best\" `n` elements within `dist` of `query`.
 
 Results are returned in arbitrary order. 'Best' is determined by
-performing a comparison of the elements using < (ie, [`std::cmp::Ordering::is_lt`]). Returns an iterator.
+performing a comparison of the elements using < (ie, [`core::cmp::Ordering::is_lt`]). Returns an iterator.
 
 # Examples
 
@@ -63,7 +65,7 @@ impl<
     > ArchivedImmutableKdTree<A, T, K, B>
 {
     generate_immutable_float_best_n_within!(
-        "use std::fs::File;
+        "use core::fs::File;
     use memmap::MmapOptions;
 
     let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/immutable-doctest-tree.rkyv\").unwrap()).unwrap() };

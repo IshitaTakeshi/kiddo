@@ -2,7 +2,7 @@
 //! between two points stored inside the tree.
 
 // #[cfg(any(target_arch = "x86_64"))]
-// use std::arch::x86_64::*;
+// use core::arch::x86_64::*;
 
 use crate::distance_metric::DistanceMetric;
 use crate::float::kdtree::Axis;
@@ -31,7 +31,7 @@ impl<A: Axis, const K: usize> DistanceMetric<A, K> for Manhattan {
         a.iter()
             .zip(b.iter())
             .map(|(&a_val, &b_val)| (a_val - b_val).abs())
-            .fold(A::zero(), std::ops::Add::add)
+            .fold(A::zero(), core::ops::Add::add)
     }
 
     #[inline]
@@ -65,7 +65,7 @@ impl<A: Axis, const K: usize> DistanceMetric<A, K> for SquaredEuclidean {
         a.iter()
             .zip(b.iter())
             .map(|(&a_val, &b_val)| (a_val - b_val) * (a_val - b_val))
-            .fold(A::zero(), std::ops::Add::add)
+            .fold(A::zero(), core::ops::Add::add)
     }
 
     #[inline]

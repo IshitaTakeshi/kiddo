@@ -1,5 +1,7 @@
 use az::{Az, Cast};
-use std::ops::Rem;
+use alloc::vec::Vec;
+
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::fixed::kdtree::{Axis, KdTree};
@@ -52,7 +54,7 @@ mod tests {
     use fixed::types::extra::U14;
     use fixed::FixedU16;
     use rand::Rng;
-    use std::cmp::Ordering;
+    use core::cmp::Ordering;
 
     type Fxd = FixedU16<U14>;
 

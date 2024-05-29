@@ -6,10 +6,14 @@
 //! values, or [`f16`](https://docs.rs/half/latest/half/struct.f16.html) if the `f16` feature is enabled
 
 use az::{Az, Cast};
+use alloc::vec::Vec;
+use alloc::vec;
+use itertools::__std_iter::Iterator;
+
 use ordered_float::OrderedFloat;
-use std::cmp::PartialEq;
-use std::fmt::Debug;
-use std::ops::Rem;
+use core::cmp::PartialEq;
+use core::fmt::Debug;
+use core::ops::Rem;
 #[cfg(feature = "tracing")]
 use tracing::{event, span, Level};
 
@@ -454,7 +458,7 @@ where
 
     #[cfg(feature = "global_allocate")]
     fn allocate_leaves(count: usize) -> Vec<LeafNode<A, T, K, B>> {
-        use std::alloc::{AllocError, Allocator, Global, Layout};
+        use core::alloc::{AllocError, Allocator, Global, Layout};
 
         let layout = Layout::array::<LeafNode<A, T, K, B>>(count).unwrap();
         let mut leaves = unsafe {
@@ -564,8 +568,8 @@ where
         #[cfg(target_arch = "x86_64")]
         unsafe {
             let prefetch = self.stems.as_ptr().wrapping_offset(2 * idx as isize);
-            std::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(
-                std::ptr::addr_of!(prefetch) as *const i8,
+            core::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(
+                core::ptr::addr_of!(prefetch) as *const i8,
             );
         }
 
@@ -573,7 +577,7 @@ where
         unsafe {
             let prefetch = self.stems.as_ptr().wrapping_offset(2 * idx as isize);
             core::arch::aarch64::_prefetch(
-                std::ptr::addr_of!(prefetch) as *const i8,
+                core::ptr::addr_of!(prefetch) as *const i8,
                 core::arch::aarch64::_PREFETCH_READ,
                 core::arch::aarch64::_PREFETCH_LOCALITY3,
             );
@@ -616,8 +620,8 @@ impl<
         #[cfg(target_arch = "x86_64")]
         unsafe {
             let prefetch = self.stems.as_ptr().wrapping_offset(2 * idx as isize);
-            std::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(
-                std::ptr::addr_of!(prefetch) as *const i8,
+            core::arch::x86_64::_mm_prefetch::<{ core::arch::x86_64::_MM_HINT_T0 }>(
+                core::ptr::addr_of!(prefetch) as *const i8,
             );
         }
 
@@ -625,7 +629,7 @@ impl<
         unsafe {
             let prefetch = self.stems.as_ptr().wrapping_offset(2 * idx as isize);
             core::arch::aarch64::_prefetch(
-                std::ptr::addr_of!(prefetch) as *const i8,
+                core::ptr::addr_of!(prefetch) as *const i8,
                 core::arch::aarch64::_PREFETCH_READ,
                 core::arch::aarch64::_PREFETCH_LOCALITY3,
             );
@@ -635,7 +639,8 @@ impl<
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::HashMap, panic};
+    use std::collections::HashMap;
+    use std::panic;
 
     use crate::immutable::float::kdtree::ImmutableKdTree;
     use ordered_float::OrderedFloat;

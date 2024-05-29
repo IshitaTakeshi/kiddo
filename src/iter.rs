@@ -1,4 +1,6 @@
 use crate::types::Content;
+use alloc::vec::Vec;
+use itertools::__std_iter::Iterator;
 
 pub(crate) trait IterableTreeData<A: Copy + Default, T: Content, const K: usize> {
     fn get_leaf_data(&self, idx: usize, out: &mut Vec<(T, [A; K])>) -> Option<usize>;

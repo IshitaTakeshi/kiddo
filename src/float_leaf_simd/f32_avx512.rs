@@ -2,7 +2,7 @@ use core::arch::x86_64::{
     _mm512_cmp_ps_mask, _mm512_loadu_ps, _mm512_min_ps, _mm512_storeu_ps, _mm_add_epi16,
     _mm_mask_mov_epi16, _mm_set1_epi16, _mm_setzero_si128, _mm_storeu_epi16, _CMP_NLT_UQ,
 };
-use std::ptr;
+use core::ptr;
 
 use crate::{float::kdtree::Axis, types::Content};
 

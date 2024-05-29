@@ -3,7 +3,7 @@
 //! squares of the distances in each dimension.
 
 // #[cfg(any(target_arch = "x86_64"))]
-// use std::arch::x86_64::*;
+// use core::arch::x86_64::*;
 
 use crate::distance_metric::DistanceMetric;
 use crate::fixed::kdtree::Axis;

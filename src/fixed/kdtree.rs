@@ -4,10 +4,13 @@
 //! decimal point.
 
 use az::{Az, Cast};
+use itertools::__std_iter::Iterator;
+use alloc::vec::Vec;
+
 use divrem::DivCeil;
 use fixed::traits::Fixed;
-use std::cmp::PartialEq;
-use std::fmt::Debug;
+use core::cmp::PartialEq;
+use core::fmt::Debug;
 
 use crate::iter::TreeIter;
 use crate::{
@@ -43,7 +46,7 @@ impl<T: num_traits::Zero + Default + Debug + rkyv::Archive> AxisRK for T {}
 ///
 /// This is only required when using Rkyv to serialize to / deserialize from
 /// a [`FixedKdTree`](crate::fixed::kdtree::KdTree). The types in the [`Fixed`](https://docs.rs/fixed/1.21.0/fixed)  crate do not support [`Rkyv`](https://crates.io/crates/rkyv/0.7.39) yet.
-/// As a workaround, we need to [`std::mem::transmute`] a [`crate::fixed::kdtree::KdTree`] into
+/// As a workaround, we need to [`core::mem::transmute`] a [`crate::fixed::kdtree::KdTree`] into
 /// an equivalent [`crate::fixed::kdtree::KdTreeRK`] before serializing via Rkyv,
 /// and vice-versa when deserializing.
 #[cfg_attr(

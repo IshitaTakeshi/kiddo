@@ -1,6 +1,6 @@
 //! A result item returned by a query
 use crate::types::Content;
-use std::cmp::Ordering;
+use core::cmp::Ordering;
 
 /// Represents an entry in the results of a nearest neighbour query, with `distance` being the distance of this
 /// particular item from the query point, and `item` being the stored item index that was found
@@ -46,7 +46,7 @@ impl<A, T: Content> From<NearestNeighbour<A, T>> for (A, T) {
 #[cfg(test)]
 mod tests {
     use crate::nearest_neighbour::NearestNeighbour;
-    use std::cmp::Ordering;
+    use core::cmp::Ordering;
 
     #[test]
     fn test_from_tuple() {

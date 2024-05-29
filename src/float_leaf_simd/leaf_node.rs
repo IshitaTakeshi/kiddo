@@ -140,14 +140,14 @@ where
                     get_best_from_dists_f64_avx512(&acc, items, best_dist, best_item)
                 }
             } else */
-            if is_x86_feature_detected!("avx2") {
-                #[cfg(target_feature = "avx2")]
-                unsafe {
-                    get_best_from_dists_f64_avx2(&acc, items, best_dist, best_item)
-                }
-            } else {
+            // if is_x86_feature_detected!("avx2") {
+            //     #[cfg(target_feature = "avx2")]
+            //     unsafe {
+            //         get_best_from_dists_f64_avx2(&acc, items, best_dist, best_item)
+            //     }
+            // } else {
                 get_best_from_dists_autovec(&acc, items, best_dist, best_item)
-            }
+            // }
         }
 
         #[cfg(any(

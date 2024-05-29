@@ -1,6 +1,7 @@
 //! Iterator object returned by within_unsorted_iter
 use crate::nearest_neighbour::NearestNeighbour;
 use generator::Generator;
+use itertools::__std_iter::Iterator;
 
 /// Iterator object returned by within_unsorted_iter
 pub struct WithinUnsortedIter<'a, A, T>(Generator<'a, (), NearestNeighbour<A, T>>);

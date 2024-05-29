@@ -1,5 +1,5 @@
 use az::{Az, Cast};
-use std::ops::Rem;
+use core::ops::Rem;
 
 use crate::distance_metric::DistanceMetric;
 use crate::float::kdtree::{Axis, KdTree, LeafNode};
@@ -66,7 +66,7 @@ where
 {
     generate_float_nearest_one!(
         ArchivedLeafNode,
-        "use std::fs::File;
+        "use core::fs::File;
     use memmap::MmapOptions;
 
     let mmap = unsafe { MmapOptions::new().map(&File::open(\"./examples/float-doctest-tree.rkyv\").unwrap()).unwrap() };

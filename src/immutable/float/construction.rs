@@ -1,9 +1,11 @@
+use itertools::__std_iter::Iterator;
+
 use crate::float::kdtree::Axis;
 use crate::float_leaf_simd::leaf_node::BestFromDists;
 use crate::immutable::float::kdtree::ImmutableKdTree;
 use crate::types::Content;
 use az::Cast;
-use std::ops::Rem;
+use core::ops::Rem;
 #[cfg(feature = "tracing")]
 use tracing::{event, Level};
 

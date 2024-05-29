@@ -5,10 +5,10 @@ use az::{Az, Cast};
 use divrem::DivCeil;
 use num_traits::Float;
 use ordered_float::OrderedFloat;
-use std::alloc::{AllocError, Allocator, Global, Layout};
-use std::cmp::PartialEq;
-use std::fmt::Debug;
-use std::ops::Rem;
+use core::alloc::{AllocError, Allocator, Global, Layout};
+use core::cmp::PartialEq;
+use core::fmt::Debug;
+use core::ops::Rem;
 
 #[cfg(feature = "serialize")]
 use crate::custom_serde::*;
@@ -598,7 +598,7 @@ mod tests {
     use num_traits::Pow;
     use ordered_float::OrderedFloat;
     use rand::{Rng, SeedableRng};
-    use std::panic;
+    use core::panic;
     type AX = f64;
 
     #[test]

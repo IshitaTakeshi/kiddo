@@ -1,6 +1,6 @@
 use az::{Az, Cast};
-use std::collections::BinaryHeap;
-use std::ops::Rem;
+use alloc::collections::BinaryHeap;
+use core::ops::Rem;
 
 use crate::float_sss::{
     kdtree::{Axis, KdTree},
@@ -144,7 +144,7 @@ mod tests {
     use crate::float::distance::manhattan;
     use crate::float::kdtree::{Axis, KdTree};
     use rand::Rng;
-    use std::cmp::Ordering;
+    use core::cmp::Ordering;
 
     type AX = f32;
 
