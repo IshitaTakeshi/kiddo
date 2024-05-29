@@ -4,4 +4,3 @@
 
 pub mod distance;
 pub mod kdtree;
-pub(crate) mod result_collection;

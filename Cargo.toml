@@ -32,7 +32,6 @@ doc-comment = "0.3"
 divrem = "1"
 ordered-float = "4"
 itertools = "0.12"
-sorted-vec = "0.8"
 
 [dev-dependencies]
 bincode = "1.3"
@@ -80,12 +79,6 @@ optional = true
 version = "2.3"
 optional = true
 features = ["num-traits"]
-
-[dependencies.rkyv]
-version = "0.7"
-optional = true
-default-features = false
-features = ["alloc", "copy_unsafe", "size_64"]
 
 [features]
 default = ["tracing"]
