@@ -92,7 +92,6 @@ pub(crate) mod common;
 #[cfg_attr(doc_cfg, doc(cfg(feature = "serialize")))]
 mod custom_serde;
 pub mod distance_metric;
-pub mod fixed;
 pub mod float;
 pub mod immutable;
 mod mirror_select_nth_unstable_by;
