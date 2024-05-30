@@ -10,29 +10,7 @@ use crate::generate_immutable_approx_nearest_one;
 
 macro_rules! generate_immutable_approx_float_nearest_one {
     ($doctest_build_tree:tt) => {
-        generate_immutable_approx_nearest_one!((
-            "Queries the tree to find the approximate nearest element to `query`, using the specified
-distance metric function.
-
-Faster than querying for nearest_one(point) due
-to not recursing up the tree to find potentially closer points in other branches.
-
-# Examples
-
-```rust
-    use kiddo::ImmutableKdTree;
-    use kiddo::SquaredEuclidean;
-
-    ",
-            $doctest_build_tree,
-            "
-
-    let nearest = tree.approx_nearest_one::<SquaredEuclidean>(&[1.0, 2.0, 5.1]);
-
-    assert!((nearest.distance - 0.01f64).abs() < f64::EPSILON);
-    assert_eq!(nearest.item, 0);
-```"
-        ));
+        generate_immutable_approx_nearest_one!();
     };
 }
 

@@ -11,28 +11,7 @@ use crate::types::Content;
 
 macro_rules! generate_immutable_float_nearest_one {
     ($doctest_build_tree:tt) => {
-        generate_immutable_nearest_one!((
-            "Queries the tree to find the nearest item to the `query` point.
-
-Faster than querying for nearest_n(point, 1, ...) due
-to not needing to allocate memory or maintain sorted results.
-
-# Examples
-
-```rust
-    use kiddo::ImmutableKdTree;
-    use kiddo::SquaredEuclidean;
-
-    ",
-            $doctest_build_tree,
-            "
-
-    let nearest = tree.nearest_one::<SquaredEuclidean>(&[1.0, 2.0, 5.1]);
-
-    assert!((nearest.distance - 0.01f64).abs() < f64::EPSILON);
-    assert_eq!(nearest.item, 0);
-```"
-        ));
+        generate_immutable_nearest_one!();
     };
 }
 

@@ -28,7 +28,6 @@ log = "0.4"
 num-traits = { version = "0.2", default-features = false }
 fixed = { version = "1", features = ["num-traits"] }
 az = "1"
-doc-comment = "0.3"
 divrem = "1"
 ordered-float = "4"
 itertools = "0.12"

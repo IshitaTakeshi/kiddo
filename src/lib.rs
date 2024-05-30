@@ -79,7 +79,6 @@
 //! * `f16` - enables usage of `f16` from the `half` crate for float trees.
 
 #[macro_use]
-extern crate doc_comment;
 extern crate alloc;
 
 pub mod best_neighbour;
