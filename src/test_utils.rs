@@ -1,14 +1,14 @@
 #![allow(clippy::type_complexity, clippy::unit_arg)]
+use alloc::boxed::Box;
 use alloc::vec;
 use alloc::vec::Vec;
-use alloc::boxed::Box;
 
 use az::Cast;
+use core::array;
+use core::hint::black_box;
 use rand::distributions::{Distribution, Standard};
 use rayon::iter::ParallelIterator;
 use rayon::prelude::IntoParallelRefIterator;
-use core::array;
-use core::hint::black_box;
 
 use crate::float::kdtree::Axis;
 use crate::float_leaf_simd::leaf_node::BestFromDists;

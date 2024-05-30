@@ -2,14 +2,13 @@
 //! are floats. f64 or f32 are supported currently, or [`f16`](https://docs.rs/half/latest/half/struct.f16.html)
 //! if the `f16` feature is enabled
 
-use az::{Az, Cast};
 use alloc::vec::Vec;
+use az::{Az, Cast};
 use itertools::__std_iter::Iterator;
 
-use divrem::DivCeil;
-use num_traits::float::FloatCore;
 use core::cmp::PartialEq;
 use core::fmt::Debug;
+use num_traits::float::FloatCore;
 
 use crate::{
     iter::{IterableTreeData, TreeIter},

@@ -1,8 +1,8 @@
 //! Definitions for some types that are common between the [`fixed`](crate::fixed) and [`float`](crate::float) modules
 use az::Cast;
+use core::fmt::Debug;
 use divrem::DivCeil;
 use num_traits::{One, PrimInt, Unsigned, Zero};
-use core::fmt::Debug;
 
 /// Content trait.
 ///

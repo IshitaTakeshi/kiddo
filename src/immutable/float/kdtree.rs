@@ -5,15 +5,15 @@
 //! As with the vanilla tree, [`f64`] or [`f32`] are supported currently for co-ordinate
 //! values, or [`f16`](https://docs.rs/half/latest/half/struct.f16.html) if the `f16` feature is enabled
 
-use az::{Az, Cast};
-use alloc::vec::Vec;
 use alloc::vec;
+use alloc::vec::Vec;
+use az::{Az, Cast};
 use itertools::__std_iter::Iterator;
 
-use ordered_float::OrderedFloat;
 use core::cmp::PartialEq;
 use core::fmt::Debug;
 use core::ops::Rem;
+use ordered_float::OrderedFloat;
 #[cfg(feature = "tracing")]
 use tracing::{event, span, Level};
 

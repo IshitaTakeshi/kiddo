@@ -25,8 +25,7 @@ opt-level = 3
 
 [dependencies]
 log = "0.4"
-num-traits = { version = "0.2", default-features = false }
-fixed = { version = "1", features = ["num-traits"] }
+num-traits = { version = "0.2", default-features = false, features = ["libm"] }
 az = "1"
 divrem = "1"
 ordered-float = "4"
@@ -74,14 +73,8 @@ optional = true
 version = "0.3"
 optional = true
 
-[dependencies.half]
-version = "2.3"
-optional = true
-features = ["num-traits"]
-
 [features]
 default = ["tracing"]
-f16 = ["half"]
 global_allocate = []
 immutable = []
 simd = []
@@ -143,11 +136,6 @@ required-features = ["test_utils"]
 [[example]]
 name = "avx2-check"
 path = "examples/avx2-check.rs"
-
-[[example]]
-name = "build-float-doctest-tree"
-path = "examples/build-float-doctest-tree.rs"
-required-features = ["serialize_rkyv"]
 
 [[example]]
 name = "half"
