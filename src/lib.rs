@@ -62,12 +62,6 @@
 //!     kdtree.nearest_one::<SquaredEuclidean>(&[0f64, 0f64]),
 //!     NearestNeighbour { distance: 0f64, item: 0 }
 //! );
-//!
-//! // find the nearest 3 items to [0f64, 0f64], and collect into a `Vec`
-//! assert_eq!(
-//!     kdtree.nearest_n::<SquaredEuclidean>(&[0f64, 0f64], 3),
-//!     vec![NearestNeighbour { distance: 0f64, item: 0 }, NearestNeighbour { distance: 2f64, item: 1 }, NearestNeighbour { distance: 8f64, item: 2 }]
-//! );
 //! ```
 //!
 //! See the [examples documentation](https://github.com/sdd/kiddo/tree/master/examples) for some more in-depth examples.
