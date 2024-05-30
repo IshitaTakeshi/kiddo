@@ -94,9 +94,6 @@ pub mod types;
 
 mod iter;
 
-#[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
-pub mod within_unsorted_iter;
-
 #[doc(hidden)]
 pub mod float_leaf_simd;
 
