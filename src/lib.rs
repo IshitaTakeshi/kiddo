@@ -83,8 +83,6 @@ extern crate doc_comment;
 extern crate alloc;
 
 pub mod best_neighbour;
-#[doc(hidden)]
-pub(crate) mod common;
 pub mod distance_metric;
 pub mod float;
 pub mod immutable;
