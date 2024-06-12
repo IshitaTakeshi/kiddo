@@ -10,6 +10,12 @@ use alloc::vec::Vec;
 use az::{Az, Cast};
 use itertools::__std_iter::Iterator;
 
+#[cfg(not(test))]
+use log::info; // Use log crate when building application
+
+#[cfg(test)]
+use std::{println as info, println as warn};
+
 use core::cmp::PartialEq;
 use core::fmt::Debug;
 use core::ops::Rem;
@@ -142,6 +148,8 @@ where
 
         //let mut top_level_shift_change_count = 0;
         loop {
+            info!("\n");
+            info!("Start the stem optimization");
             let requested_shift = Self::optimize_stems(
                 &mut stems,
                 &mut shifts,
@@ -151,6 +159,7 @@ where
                 0,
                 leaf_node_count * B,
             );
+            info!("Stem optimization finished");
 
             if requested_shift == 0 {
                 break;
@@ -161,20 +170,11 @@ where
             // the tree to overflow into. Add just enough extra leaf nodes to accommodate
             // the shift.
             leaf_node_count += requested_shift.div_ceil(B);
-            #[cfg(feature = "tracing")]
-            event!(
-                Level::TRACE,
-                requested_shift,
-                leaf_node_count,
-                "top-level shift"
-            );
 
             // if the new leaf count can't be accommodated by the existing stem count,
             // bump up the stem count to the next power of two.
             if leaf_node_count > stem_node_count {
                 stem_node_count = (stem_node_count + 1).next_power_of_two();
-                #[cfg(feature = "tracing")]
-                event!(Level::TRACE, stem_node_count, "extending stems");
 
                 stems = vec![A::infinity(); stem_node_count];
                 shifts = Self::extend_shifts(stem_node_count, &shifts, requested_shift);
@@ -256,16 +256,16 @@ where
         dim: usize,
         capacity: usize,
     ) -> usize {
-        #[cfg(feature = "tracing")]
-        let span = span!(Level::TRACE, "opt", idx = stem_index);
-        #[cfg(feature = "tracing")]
-        let _enter = span.enter();
         let chunk_length = sort_index.len();
         if chunk_length <= B {
             return 0;
         }
 
         if chunk_length > capacity {
+            info!(
+                "overflow: chunk_length = {}, capacity = {}, ",
+                chunk_length, capacity
+            );
             return chunk_length - capacity;
         }
 
@@ -275,8 +275,18 @@ where
         let left_capacity = (2usize.pow(stem_levels_below) * B).min(capacity);
         let right_capacity = capacity.saturating_sub(left_capacity);
 
+        info!("");
+        info!("stem_index = {}", stem_index);
+        info!("stems.len() = {}", stems.len());
+        info!("capacity = {}", capacity);
+        info!("chunk_length = {}", chunk_length);
+        info!("shifts[stem_index] = {}", shifts[stem_index]);
+        info!("stem_levels_below = {}", stem_levels_below);
+
         let mut pivot =
             Self::calc_pivot(chunk_length, shifts[stem_index], stem_index, right_capacity);
+
+        info!("pivot = {}", pivot);
 
         // only bother with this if we are putting at least one item in the right hand child
         if pivot < chunk_length {
@@ -284,7 +294,7 @@ where
 
             // if we end up with a pivot of 0, something has gone wrong,
             // unless we only had a slice of len 1 anyway
-            debug_assert!(pivot > 0 || chunk_length == 1);
+            assert!(pivot > 0 || chunk_length == 1);
 
             stems[stem_index] = source[sort_index[pivot]][dim];
         }
@@ -296,12 +306,6 @@ where
 
         // if the right chunk is bigger than it's capacity, return the overflow amount
         if chunk_length - pivot > right_capacity {
-            #[cfg(feature = "tracing")]
-            event!(
-                Level::TRACE,
-                val = chunk_length - pivot - right_capacity,
-                "RHS Overflow A"
-            );
             return chunk_length - pivot - right_capacity;
         }
 
@@ -327,9 +331,6 @@ where
                 break;
             }
 
-            #[cfg(feature = "tracing")]
-            event!(Level::TRACE, req = requested_shift_amount, "LHS shift");
-
             pivot -= requested_shift_amount;
             pivot = Self::update_pivot(source, sort_index, dim, pivot);
 
@@ -338,31 +339,18 @@ where
             // return with a value so that the parent reduces our
             // total allocation
             if chunk_length - pivot > right_capacity {
-                #[cfg(feature = "tracing")]
-                event!(Level::TRACE, val = requested_shift_amount, "shift A");
                 shifts[stem_index] += requested_shift_amount;
 
-                #[cfg(feature = "tracing")]
-                event!(
-                    Level::TRACE,
-                    val = chunk_length - pivot - right_capacity,
-                    "RHS Overflow B"
-                );
                 return chunk_length - pivot - right_capacity;
             }
 
             sort_index.select_nth_unstable_by_key(pivot, |&i| OrderedFloat(source[i][dim]));
             stems[stem_index] = source[sort_index[pivot]][dim];
 
-            #[cfg(feature = "tracing")]
-            event!(
-                Level::TRACE,
-                idx = stem_index,
-                d = requested_shift_amount,
-                "shift B"
-            );
             shifts[stem_index] += requested_shift_amount;
         }
+
+        info!("Left side optimized");
 
         // If a right child requests a shift, don't shift yourself,
         // but do pass that shift back up to your parent
@@ -375,10 +363,7 @@ where
             next_dim,
             right_capacity,
         );
-        #[cfg(feature = "tracing")]
-        if res != 0 {
-            event!(Level::TRACE, val = res, "RHS shift");
-        }
+        info!("Right side optimized with residual {}", res);
 
         res
     }
@@ -540,18 +525,13 @@ where
                 pivot.next_power_of_two()
             };
         } else if chunk_length & 0x01 == 1 && shifted == 0 {
-            //#[cfg(feature = "tracing")]
-            //event!(Level::TRACE, "cp D");
-            pivot = (pivot + 1).next_power_of_two()
+            pivot = (pivot + 1).next_power_of_two();
         } else {
             pivot = pivot.next_power_of_two();
         }
         pivot -= shifted;
         pivot = pivot.max(chunk_length.saturating_sub(right_capacity));
-        //#[cfg(feature = "tracing")]
-        //event!(Level::TRACE, pivot, "pivot");
         pivot
-        // pivot - shifted
     }
 
     #[cfg(all(feature = "simd", any(target_arch = "x86_64", target_arch = "aarch64")))]

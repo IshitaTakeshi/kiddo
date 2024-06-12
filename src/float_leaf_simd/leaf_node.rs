@@ -6,6 +6,10 @@ use az::Cast;
     any(target_arch = "x86", target_arch = "x86_64")
 ))]
 use super::f64_avx2::get_best_from_dists_f64_avx2;
+
+#[cfg(all(target_feature = "neon", target_arch = "aarch64"))]
+use super::f64_neon::get_best_from_dists_f64_neon;
+
 //use super::{f32_avx2::get_best_from_dists_f32_avx2};
 
 // #[cfg(all(
@@ -85,29 +89,28 @@ where
     fn get_best_from_dists(acc: [f64; B], items: &[T; B], best_dist: &mut f64, best_item: &mut T) {
         #[cfg(all(feature = "simd", any(target_arch = "x86", target_arch = "x86_64")))]
         {
-            /*if is_x86_feature_detected!("avx512f") {
+            if is_x86_feature_detected!("avx512f") {
                 #[cfg(target_feature = "avx512f")]
                 unsafe {
                     get_best_from_dists_f64_avx512(&acc, items, best_dist, best_item)
                 }
-            } else */
-            // if is_x86_feature_detected!("avx2") {
-            //     #[cfg(target_feature = "avx2")]
-            //     unsafe {
-            //         get_best_from_dists_f64_avx2(&acc, items, best_dist, best_item)
-            //     }
-            // } else {
-            get_best_from_dists_autovec(&acc, items, best_dist, best_item)
-            // }
+            } else if is_x86_feature_detected!("avx2") {
+                #[cfg(target_feature = "avx2")]
+                unsafe {
+                    get_best_from_dists_f64_avx2(&acc, items, best_dist, best_item)
+                }
+            } else {
+                get_best_from_dists_autovec(&acc, items, best_dist, best_item)
+            }
+            return;
         }
 
-        #[cfg(any(
-            not(feature = "simd"),
-            not(any(target_arch = "x86", target_arch = "x86_64"))
-        ))]
+        #[cfg(all(target_feature = "neon", target_arch = "aarch64"))]
         {
-            get_best_from_dists_autovec(&acc, items, best_dist, best_item)
+            unsafe { get_best_from_dists_f64_neon(&acc, items, best_dist, best_item) }
+            return;
         }
+        panic!("Target feature not enabled")
     }
 }
 
@@ -123,14 +126,14 @@ where
                 // TODO
                 unimplemented!()
             } else */
-            /*if is_x86_feature_detected!("avx2") {
+            if is_x86_feature_detected!("avx2") {
                 #[cfg(target_feature = "avx2")]
                 unsafe {
                     get_best_from_dists_f32_avx2(&acc, items, best_dist, best_item)
                 }
-            } else {*/
-            get_best_from_dists_autovec(&acc, items, best_dist, best_item)
-            //}
+            } else {
+                get_best_from_dists_autovec(&acc, items, best_dist, best_item)
+            }
         }
 
         #[cfg(any(

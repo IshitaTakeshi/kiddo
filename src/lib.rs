@@ -99,7 +99,7 @@ pub mod float_leaf_simd;
 /// To manually specify more advanced parameters, use [`ImmutableKdTree`](`immutable::float::kdtree::ImmutableKdTree`) directly.
 /// To store positions using integer or fixed-point types, use [`fixed::kdtree::KdTree`].
 pub type ImmutableKdTree<A, const K: usize> =
-    immutable::float::kdtree::ImmutableKdTree<A, u64, K, 32>;
+    immutable::float::kdtree::ImmutableKdTree<A, u64, K, 256>;
 
 pub use best_neighbour::BestNeighbour;
 pub use float::distance::Manhattan;

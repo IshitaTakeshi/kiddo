@@ -30,6 +30,7 @@ az = "1"
 divrem = "1"
 ordered-float = { version = "4", default-features = false }
 itertools = { version = "0.12", default-features = false }
+awkernel_lib = { path = "../../../awkernel_lib", default-features = false }
 
 [dev-dependencies]
 bincode = "1.3"

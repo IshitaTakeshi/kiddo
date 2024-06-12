@@ -17,6 +17,12 @@ pub mod leaf_node;
 ))]
 pub(crate) mod f64_avx2;
 
+#[cfg(all(
+    target_feature = "neon",
+    any(target_arch = "aarch64", target_arch = "arm")
+))]
+pub(crate) mod f64_neon;
+
 // TODO: fix f32 AVX512
 
 // #[cfg(all(
